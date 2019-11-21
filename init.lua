@@ -15,6 +15,9 @@ minetest.register_privilege("liquids", {
 
 for _, name in ipairs(overrides) do
 	local def = minetest.registered_items[name]
+
+	if not def then return end -- Item doesn't exist
+
 	local old_on_place = def.on_place
 	local newdef = {}
 
@@ -31,6 +34,7 @@ for _, name in ipairs(overrides) do
 				minetest.chat_send_player(p:get_player_name(), "You do not have the privs required to place liquids above y 0!")
 				return itemstack
 			end
+
 			minetest.log("returning...")
 			return old_on_place(itemstack, p, pt)
 		end
